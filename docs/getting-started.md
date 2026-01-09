@@ -79,9 +79,3 @@ cargo run
 # Or inline
 PORT=8080 RUST_LOG=info cargo run
 ```
-
-## What's Next?
-
-- Check out the [API Reference](api-reference.md) for all available endpoints
-- Learn about the [Architecture](architecture.md)
-
