@@ -1,0 +1,168 @@
+# ---
+# apiVersion: backstage.io/v1alpha1
+# kind: API
+# metadata:
+#   name: demo-rust-api-v1
+#   title: Demo Rust API v1
+#   description: REST API for managing items
+#   tags:
+#     - rest
+#     - json
+# spec:
+#   type: openapi
+#   lifecycle: experimental
+#   owner: guests
+#   definition: |
+#     openapi: 3.0.0
+#     info:
+#       title: Demo Rust API
+#       version: 1.0.0
+#       description: A demo REST API built with Rust and Axum
+#     servers:
+#       - url: http://localhost:3030
+#         description: Local development server
+#     paths:
+#       /health:
+#         get:
+#           summary: Health check endpoint
+#           responses:
+#             '200':
+#               description: Service is healthy
+#               content:
+#                 application/json:
+#                   schema:
+#                     type: object
+#                     properties:
+#                       status:
+#                         type: string
+#                       version:
+#                         type: string
+#                       timestamp:
+#                         type: string
+#                         format: date-time
+#       /api/v1/items:
+#         get:
+#           summary: List all items
+#           responses:
+#             '200':
+#               description: List of items
+#               content:
+#                 application/json:
+#                   schema:
+#                     $ref: '#/components/schemas/ApiResponseItemList'
+#         post:
+#           summary: Create a new item
+#           requestBody:
+#             required: true
+#             content:
+#               application/json:
+#                 schema:
+#                   $ref: '#/components/schemas/CreateItemRequest'
+#           responses:
+#             '201':
+#               description: Item created
+#               content:
+#                 application/json:
+#                   schema:
+#                     $ref: '#/components/schemas/ApiResponseItem'
+#       /api/v1/items/{id}:
+#         parameters:
+#           - name: id
+#             in: path
+#             required: true
+#             schema:
+#               type: string
+#               format: uuid
+#         get:
+#           summary: Get item by ID
+#           responses:
+#             '200':
+#               description: Item found
+#               content:
+#                 application/json:
+#                   schema:
+#                     $ref: '#/components/schemas/ApiResponseItem'
+#             '404':
+#               description: Item not found
+#         put:
+#           summary: Update an item
+#           requestBody:
+#             required: true
+#             content:
+#               application/json:
+#                 schema:
+#                   $ref: '#/components/schemas/UpdateItemRequest'
+#           responses:
+#             '200':
+#               description: Item updated
+#               content:
+#                 application/json:
+#                   schema:
+#                     $ref: '#/components/schemas/ApiResponseItem'
+#             '404':
+#               description: Item not found
+#         delete:
+#           summary: Delete an item
+#           responses:
+#             '200':
+#               description: Item deleted
+#             '404':
+#               description: Item not found
+#     components:
+#       schemas:
+#         Item:
+#           type: object
+#           properties:
+#             id:
+#               type: string
+#               format: uuid
+#             name:
+#               type: string
+#             description:
+#               type: string
+#               nullable: true
+#             created_at:
+#               type: string
+#               format: date-time
+#             updated_at:
+#               type: string
+#               format: date-time
+#         CreateItemRequest:
+#           type: object
+#           required:
+#             - name
+#           properties:
+#             name:
+#               type: string
+#             description:
+#               type: string
+#         UpdateItemRequest:
+#           type: object
+#           properties:
+#             name:
+#               type: string
+#             description:
+#               type: string
+#         ApiResponseItem:
+#           type: object
+#           properties:
+#             success:
+#               type: boolean
+#             data:
+#               $ref: '#/components/schemas/Item'
+#             message:
+#               type: string
+#               nullable: true
+#         ApiResponseItemList:
+#           type: object
+#           properties:
+#             success:
+#               type: boolean
+#             data:
+#               type: array
+#               items:
+#                 $ref: '#/components/schemas/Item'
+#             message:
+#               type: string
+#               nullable: true
+
